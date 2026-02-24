@@ -4,16 +4,17 @@ class Solution {
     }
 
     public List<Integer> targetIndices(int[] nums, int target) {
-        Arrays.sort(nums);
-        
-        int n=nums.length;
-        
         List<Integer>list=new ArrayList<>();
 
-        for(int i=0;i<n;i++){
-            if(nums[i]==target){
-                list.add(i);
-            }
+        int lessThan=0,equalTo=0;
+
+        for(int num:nums){
+            if(num<target) lessThan++;
+            else if(num==target) equalTo++;
+        }
+
+        for(int i=0;i<equalTo;i++){
+            list.add(lessThan+i);
         }
 
         return list;
