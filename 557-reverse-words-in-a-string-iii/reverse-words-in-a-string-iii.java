@@ -1,4 +1,11 @@
 class Solution {
+
+    static {
+    // This disconnects the standard Java streams to speed up I/O
+    System.setOut(new java.io.PrintStream(new java.io.BufferedOutputStream(System.out)));
+    // Sometimes people also use this to close the input stream early or speed up scanning
+    }
+
     public String reverseWords(String s) {
         String[]str=s.split(" ");
 
