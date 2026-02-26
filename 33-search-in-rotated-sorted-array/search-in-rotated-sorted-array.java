@@ -8,6 +8,12 @@ class Solution {
 
             if(nums[mid]==target) return mid;
 
+            if (nums[low] == nums[mid] && nums[mid] == nums[high]) {
+                low++;
+                high--;
+                continue; // Restart the loop with smaller range
+            }
+
             if(nums[low]<=nums[mid]){
                 if(target<nums[mid] && target>=nums[low]){
                     high=mid-1 ;
