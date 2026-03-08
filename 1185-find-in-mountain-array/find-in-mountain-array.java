@@ -8,59 +8,48 @@
  */
  
 class Solution {
-    public int findInMountainArray(int target, MountainArray mount) {
-        int length=mount.length();
+    public int findInMountainArray(int target, MountainArray mountainArr) {
+        int peakIndex=findPeak(mountainArr);
 
-        int peakIndex=findPeak(mount,length);
-        
-        int result=find(mount,0,peakIndex,target,true);
+        int result=findTarget(mountainArr,0,peakIndex,target,true);
+        if(result!=-1) return result;
 
-        if(result!=-1){
-            return result;
-        }
-
-        return find(mount,peakIndex+1,length-1,target,false);
+        return findTarget(mountainArr,peakIndex+1,mountainArr.length()-1,target,false);
     }
 
-    public int find(MountainArray mount,int low,int high,int target,boolean isUpside){
-        
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            int midVal=mount.get(mid);
-            if(mount.get(mid)==target){
-                return mid;
-            }
-            if(isUpside){
-                if (target > midVal) {
-                    low = mid + 1;
-                } else {
-                    high = mid - 1;
-                }
-            } else {
-                if (target > midVal) {
-                    high = mid - 1;
-                } else {
-                    low = mid + 1;
-                }
-            }
-        }
-        
-        return -1;
-    }
-    public int findPeak(MountainArray mount,int length){
-        int low=0,high=length-1;
-        int peak=Integer.MIN_VALUE;
-        int peakIndex=0;
-        while(low<high){
-            int mid=low+(high-low)/2;
-
+    public int findPeak(MountainArray mount){
+        int low = 0, high = mount.length() - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
             if (mount.get(mid) < mount.get(mid + 1)) {
-                low = mid + 1;
+                low = mid + 1; // We are in the ascending part
             } else {
-                high = mid;
+                high = mid; // We are in the descending part or at the peak
             }
-                        
         }
         return low;
+    }
+
+    public int findTarget(MountainArray mount,int low,int high,int target,boolean which){
+        if(which){
+            while(low<=high){
+                int mid=low+(high-low)/2;
+                int num=mount.get(mid);
+                if(num==target){
+                    return mid;
+                }else if (num<target) low=mid+1;
+                else high=mid-1;
+            }
+        }else{
+            while(low<=high){
+                int mid=low+(high-low)/2;
+                int num=mount.get(mid);
+                if(num==target){
+                    return mid;
+                }else if (num<target)high=mid-1 ;
+                else low=mid+1;
+            }
+        }
+        return -1;
     }
 }
