@@ -2,12 +2,22 @@ class Solution {
     public int maxDistance(int[] colors) {
         int n=colors.length;
         if(n<=1) return 0;
-        int max=0;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(colors[i]!=colors[j]) max=Math.max(max,Math.abs(j-i));
+        int ans=0;
+        int firsthouse=colors[0];
+        for(int i=n-1;i>=0;i--){
+            if(colors[i]!=firsthouse){
+                ans=i;
+                break;
             }
         }
-        return max;
+        int secondHouse=colors[n-1];
+        int ans2=0;
+        for(int i=0;i<n;i++){
+            if(colors[i]!=secondHouse){
+                ans2=i;
+                break;
+            }
+        }
+        return Math.max(ans,n-1-ans2);        
     }
 }
