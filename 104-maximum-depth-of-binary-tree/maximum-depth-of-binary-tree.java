@@ -14,17 +14,23 @@
  * }
  */
 class Solution {
-    int maxCount=0;
     public int maxDepth(TreeNode root) {
         if(root==null)return 0;
-        count(root,1);
-        return maxCount;
-    }
-    public void count(TreeNode root,int count){
-        if(root==null) return ;
-        maxCount=Math.max(count,maxCount);
-        count(root.left,count+1);
-        count(root.right,count+1);
+        int count=0;
 
+        Queue<TreeNode>q=new LinkedList<>();
+        q.add(root);
+
+        while(!q.isEmpty()){
+            int size=q.size();
+            count++;
+
+            for(int i=0;i<size;i++){
+                TreeNode curr=q.poll();
+                if(curr.left!=null) q.add(curr.left);
+                if(curr.right!=null) q.add(curr.right);
+            }
+        }
+        return count;
     }
 }
