@@ -13,6 +13,6 @@ class Solution {
                 return false;
             }
         }
-        return map!=null && map.isEmpty()?true:false;
+        return map.isEmpty()?true:false;
     }
 }
