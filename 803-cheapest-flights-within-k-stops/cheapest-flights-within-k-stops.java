@@ -30,7 +30,7 @@ class Solution {
                 int nextNode=arr1[0];
                 int nextCost=arr1[1]+cost;
 
-                if(nextCost<distance[nextNode] && dis<=k){
+                if(nextCost<distance[nextNode]){
                     distance[nextNode]=nextCost;
                     q.add(new int[]{nextNode,nextCost,dis+1});
                 }
