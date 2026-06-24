@@ -1,37 +1,36 @@
 class Solution {
-    int rows;
-    int cols;
-    int maxArea;
-
+    int m;
+    int n;
+    int maxArea=0;
     public int maxAreaOfIsland(int[][] grid) {
-        this.maxArea=0;
-        this.rows=grid.length;
-        this.cols=grid[0].length;
-        
-        for(int i=0;i<rows;i++){
-            for(int j=0;j<cols;j++){
+        this.m=grid.length;
+        this.n=grid[0].length;
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
-                    int area=dfs(i,j,grid);
-                    maxArea=Math.max(maxArea,area);
+                    maxArea=Math.max(maxArea,dfs(grid,i,j));
                 }
             }
         }
         return maxArea;
     }
 
-    public int dfs(int row,int col,int[][]grid){
-
-        if(row<0 || row>=rows || col<0 || col>=cols || grid[row][col]==0){
+    public int dfs(int[][]grid,int i,int j){
+        if(i<0 ||i>=m || j<0 || j>=n || grid[i][j]==0 ){  
             return 0;
-        } 
-        grid[row][col]=0;
-        
-        int area=1;
+        }
+
+        grid[i][j]=0;
+
         int[]ds={1,0,-1,0,1};
-        for(int i=0;i<4;i++){
-            int nrow=row+ds[i];
-            int ncol=col+ds[i+1];
-            area+=dfs(nrow,ncol,grid);
+
+        int area=1;
+
+        for(int k=0;k<4;k++){
+            int row=i+ds[k];
+            int col=j+ds[k+1];
+            area+=dfs(grid,row,col);
         }
         return area;
     }
