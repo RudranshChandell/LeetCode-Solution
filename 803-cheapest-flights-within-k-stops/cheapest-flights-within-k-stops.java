@@ -1,43 +1,45 @@
+import java.util.*;
+
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        int ans=Integer.MAX_VALUE;
-        List<List<int[]>>adj=new ArrayList<>();
-
-        for(int i=0;i<n;i++){
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
         }
-
-        for(int []arr:flights){
-            adj.get(arr[0]).add(new int[]{arr[1],arr[2]});
+        for (int[] flight : flights) {
+            adj.get(flight[0]).add(new int[]{flight[1], flight[2]});
         }
 
-        int[]distance=new int[n];
-        Arrays.fill(distance, Integer.MAX_VALUE);
-        distance[src]=0;
+        int[] stopsMap = new int[n];
+        Arrays.fill(stopsMap, Integer.MAX_VALUE);
+        stopsMap[src] = 0;
 
-        Queue<int[]>q=new LinkedList<>();
-        q.add(new int[]{src,0,0});
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[1], b[1]));
+        pq.add(new int[]{src, 0, 0});
 
-        while(!q.isEmpty()){
-            int[]arr=q.poll();
-            int node=arr[0];
-            int cost=arr[1];
-            int dis=arr[2];
+        while (!pq.isEmpty()) {
+            int[] arr = pq.poll();
+            int node = arr[0];
+            int cost = arr[1];
+            int stops = arr[2];
 
-            if(dis>k ) continue;
+            if (node == dst) return cost;
 
-            for(int arr1[]: adj.get(node)){
-                int nextNode=arr1[0];
-                int nextCost=arr1[1]+cost;
+            if (stops > stopsMap[node]) continue;
 
-                if(nextCost<distance[nextNode]){
-                    distance[nextNode]=nextCost;
-                    q.add(new int[]{nextNode,nextCost,dis+1});
+            if (stops > k) continue;
+
+            for (int[] neighbor : adj.get(node)) {
+                int nextNode = neighbor[0];
+                int price = neighbor[1];
+
+                if (stops + 1 < stopsMap[nextNode]) {
+                    stopsMap[node] = stops ;
+                    pq.add(new int[]{nextNode, cost + price, stops + 1});
                 }
             }
-
         }
 
-        return distance[dst]==Integer.MAX_VALUE ? -1: distance[dst]; 
+        return -1;
     }
 }
