@@ -25,6 +25,8 @@ class Solution {
 
             if (node == dst) return cost;
 
+            if (stops > stopsMap[node]) continue;
+
             if (stops > k) continue;
 
             for (int[] neighbor : adj.get(node)) {
