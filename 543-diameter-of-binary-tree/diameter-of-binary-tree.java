@@ -14,20 +14,20 @@
  * }
  */
 class Solution {
-    int ans=Integer.MIN_VALUE;
+    int ans=0;
     public int diameterOfBinaryTree(TreeNode root) {
         check(root);
         return ans;
     }
 
-    public int check(TreeNode node){
-        if(node==null) return 0;
+    public int check(TreeNode root){
+        if(root==null) return 0;
 
-        int left=check(node.left);
-        int right=check(node.right);
+        int left=check(root.left);
+        int right=check(root.right);
 
         ans=Math.max(ans,left+right);
 
-        return Math.max(left,right)+1;
+        return 1+ Math.max(left,right);
     }
 }
