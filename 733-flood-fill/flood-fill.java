@@ -1,32 +1,23 @@
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int m=image.length;
-        int n=image[0].length;
-        int current=image[sr][sc];
-        int[][]vis=new int[m][n];
-        Queue<int[]>q=new LinkedList<>();
-        q.add(new int[]{sr,sc});
-        
-        while(!q.isEmpty()){
-            int[]arr=q.poll();
-            int x=arr[0];
-            int y=arr[1];
+        int oldColor=image[sr][sc];
 
-            
-            image[x][y]=color;
-
-            int[]ds={1,0,-1,0,1};
-
-            for(int i=0;i<4;i++){
-                int row=x+ds[i];
-                int col=y+ds[i+1];
-
-                if(row>=0 && row<m && col>=0 && col<n && image[row][col]==current && vis[row][col]==0){
-                    vis[row][col]=1;
-                    q.add(new int[]{row,col});
-                }
-            }
+        if(oldColor!=color){
+            dfs(image,sr,sc,oldColor,color);
         }
         return image;
+    }
+
+    public void dfs(int[][]image,int r,int c,int oldColor,int color){
+        if(r<0 || r>=image.length || c<0 ||c>=image[0].length || image[r][c]!=oldColor){
+            return;
+        }
+
+        image[r][c]=color;
+
+        dfs(image,r-1,c,oldColor,color);
+        dfs(image,r+1,c,oldColor,color);
+        dfs(image,r,c+1,oldColor,color);
+        dfs(image,r,c-1,oldColor,color);
     }
 }
