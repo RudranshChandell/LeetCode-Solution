@@ -1,27 +1,32 @@
 class Solution {
-    int m;
-    int n;
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        this.m=image.length;
-        this.n=image[0].length;
-        int startingColor=image[sr][sc];
-        if(startingColor==color)return image;
-        dfs(image,sr,sc,startingColor,color);
+        int m=image.length;
+        int n=image[0].length;
+        int current=image[sr][sc];
+        int[][]vis=new int[m][n];
+        Queue<int[]>q=new LinkedList<>();
+        q.add(new int[]{sr,sc});
+        
+        while(!q.isEmpty()){
+            int[]arr=q.poll();
+            int x=arr[0];
+            int y=arr[1];
 
-        return image;
-    }
-    public void dfs(int[][]image,int sr,int sc,int startingColor,int color){
-        image[sr][sc]=color;
+            
+            image[x][y]=color;
 
-        int ds[]={1,0,-1,0,1};
+            int[]ds={1,0,-1,0,1};
 
-        for(int i=0;i<4;i++){
-            int row=sr+ds[i];
-            int col=sc+ds[i+1];
+            for(int i=0;i<4;i++){
+                int row=x+ds[i];
+                int col=y+ds[i+1];
 
-            if(row>=0 && row<m && col>=0 && col<n && image[row][col]==startingColor){
-                dfs(image,row,col,startingColor,color);
+                if(row>=0 && row<m && col>=0 && col<n && image[row][col]==current && vis[row][col]==0){
+                    vis[row][col]=1;
+                    q.add(new int[]{row,col});
+                }
             }
         }
+        return image;
     }
 }
