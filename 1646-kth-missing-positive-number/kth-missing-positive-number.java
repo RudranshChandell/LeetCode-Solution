@@ -1,17 +1,21 @@
 class Solution {
     public int findKthPositive(int[] arr, int k) {
-        int low=0,high=arr.length-1;
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            
-            int missing=arr[mid]-(mid+1);
-
-            if(missing<k){
-                low=mid+1;
-            }else{
-                high=mid-1;
+        int currentMissing = 0;
+        int arrIndex = 0;
+        int currentNumber = 1;
+        
+        while (true) {
+            // If the current number exists in the array, move to the next array element
+            if (arrIndex < arr.length && arr[arrIndex] == currentNumber) {
+                arrIndex++;
+            } else {
+                // Otherwise, it's a missing number! Count it down.
+                currentMissing++;
+                if (currentMissing == k) {
+                    return currentNumber; // Found the k-th missing number
+                }
             }
+            currentNumber++;
         }
-        return low+k;
     }
 }
