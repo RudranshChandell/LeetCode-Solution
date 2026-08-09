@@ -2,13 +2,12 @@ class Solution {
     public int fib(int n) {
         if(n==0 || n==1) return n;
 
-        int a=0,b=1;
-        int c=0;
-        for(int i=2;i<=n;i++){
-            c=a+b;
-            a=b;
-            b=c;
+        return calculate(0,1,2,n);
+    }
+    public int calculate(int a,int b,int step,int n){
+        if(step==n){
+            return a+b;
         }
-        return c;
+        return calculate(b,a+b,step+1,n);
     }
 }
