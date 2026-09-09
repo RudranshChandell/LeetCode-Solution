@@ -1,7 +1,9 @@
 class Solution {
-    int m,n;
+    int m;
+    int n;
+
     public int numIslands(char[][] grid) {
-        int count=0;    
+        int count=0;
         m=grid.length;
         n=grid[0].length;
 
@@ -13,20 +15,18 @@ class Solution {
                 }
             }
         }
+
         return count;
     }
 
     public void dfs(char[][]grid,int i,int j){
-        if(i<0 ||i>=m || j<0 || j>=n || grid[i][j]=='0'){
-            return;
-        }
+        if(i<0 ||i>=m ||j<0 || j>=n ||grid[i][j]=='0') return;
 
         grid[i][j]='0';
 
-        int[]ds={1,0,-1,0,1};
-
-        for(int k=0;k<4;k++){
-            dfs(grid,i+ds[k],j+ds[k+1]);
-        }
+        dfs(grid,i-1,j);
+        dfs(grid,i,j-1);
+        dfs(grid,i,j+1);
+        dfs(grid,i+1,j);
     }
 }
