@@ -1,49 +1,26 @@
 class Solution {
-    static {
-        Runtime.getRuntime().gc();
-        Runtime.getRuntime().addShutdownHook(new Thread(()->{
-            try(FileWriter f = new FileWriter("display_runtime.txt")){
-                f.write("0");
-            }catch(Exception e){
-
-            }
-        }));
-    }
-
     public boolean checkInclusion(String s1, String s2) {
-        int windowSize=s1.length();
-        int wordLength=s2.length();
-        int distinct=0;
-
-        int[]frequency=new int[26];
-
-        for(int i=0;i<windowSize;i++){
-            frequency[s1.charAt(i)-'a']++;
-
-            if(frequency[s1.charAt(i)-'a']==1){
-                distinct++;
-            }
+        int len1=s1.length();
+        int len2=s2.length();
+        if (len1 > len2) {
+            return false;
         }
 
-        for(int i=0;i<wordLength;i++){
-            int currentIndex=s2.charAt(i)-'a';
-            frequency[currentIndex]--;
-            
-            if(frequency[currentIndex]==0){
-                distinct--;
-            }
-            
-            if(i>=windowSize){
-                int leftIndex=s2.charAt(i-windowSize)-'a';
+        int ch1[]=new int[26];
+        int ch2[]=new int[26];
 
-                frequency[leftIndex]++;
+        for(char ch:s1.toCharArray()){
+            ch1[ch-'a']++;
+        }
 
-                if(frequency[leftIndex]==1){
-                    distinct++;
-                }
-            }
+        for(int i=0;i<len1-1;i++){
+            ch2[s2.charAt(i)-'a']++;
+        }
 
-            if(distinct==0) return true;
+        for(int i=len1-1;i<len2;i++){
+            ch2[s2.charAt(i)-'a']++;
+            if(Arrays.equals(ch1,ch2)) return true;
+            ch2[s2.charAt(i-len1+1)-'a']--;
         }
         return false;
     }
