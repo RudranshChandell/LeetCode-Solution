@@ -1,17 +1,23 @@
 class Solution {
     int m;
     int n;
-
     public int numIslands(char[][] grid) {
-        int count=0;
-        m=grid.length;
-        n=grid[0].length;
+        this.m=grid.length;
+        this.n=grid[0].length;
+
+        int[][]vis=new int[m][n];
 
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(grid[i][j]=='1'){
+                if(grid[i][j]=='1') vis[i][j]=1;
+            }
+        }
+        int count=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(vis[i][j]==1){
                     count++;
-                    dfs(grid,i,j);
+                    dfs(i,j,vis,grid);
                 }
             }
         }
@@ -19,14 +25,18 @@ class Solution {
         return count;
     }
 
-    public void dfs(char[][]grid,int i,int j){
-        if(i<0 ||i>=m ||j<0 || j>=n ||grid[i][j]=='0') return;
+    public void dfs(int i,int j,int[][]vis,char[][]grid){
+        if(i<0 || i>=m || j<0 || j>=n || grid[i][j]=='0' || vis[i][j]==0) return;
 
-        grid[i][j]='0';
+        vis[i][j]=0;
 
-        dfs(grid,i-1,j);
-        dfs(grid,i,j-1);
-        dfs(grid,i,j+1);
-        dfs(grid,i+1,j);
+        int []ds={1,0,-1,0,1};
+
+        for(int k=0;k<4;k++){
+            int ni=i+ds[k];
+            int nj=j+ds[k+1];
+
+            dfs(ni,nj,vis,grid);
+        }
     }
 }
